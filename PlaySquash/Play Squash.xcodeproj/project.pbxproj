@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D00C3D01CBD7C6100696E6D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D00C3CF1CBD7C6100696E6D /* Launch Screen.storyboard */; };
 		1D1FCC7A1CB31D3D00403206 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1FCC791CB31D3D00403206 /* CloudKit.framework */; };
+		1D1FCC7C1CB6D9A300403206 /* AppCloudData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1FCC7B1CB6D9A300403206 /* AppCloudData.swift */; };
+		1D1FCC7E1CB6DB5C00403206 /* AppUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1FCC7D1CB6DB5C00403206 /* AppUserProfile.swift */; };
 		1DD8BED51BD9864B0032BAAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BED41BD9864B0032BAAC /* AppDelegate.swift */; };
 		1DD8BED71BD9864B0032BAAC /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BED61BD9864B0032BAAC /* FirstViewController.swift */; };
 		1DD8BED91BD9864B0032BAAC /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BED81BD9864B0032BAAC /* SecondViewController.swift */; };
 		1DD8BEDC1BD9864B0032BAAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DD8BEDA1BD9864B0032BAAC /* Main.storyboard */; };
 		1DD8BEDE1BD9864B0032BAAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DD8BEDD1BD9864B0032BAAC /* Assets.xcassets */; };
-		1DD8BEE11BD9864B0032BAAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DD8BEDF1BD9864B0032BAAC /* LaunchScreen.storyboard */; };
 		1DD8BEEC1BD9864B0032BAAC /* Play_SquashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BEEB1BD9864B0032BAAC /* Play_SquashTests.swift */; };
 		1DD8BEF71BD9864B0032BAAC /* Play_SquashUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BEF61BD9864B0032BAAC /* Play_SquashUITests.swift */; };
 		1DDBC5171C1651400043FB33 /* ProfileEditorUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBC5161C1651400043FB33 /* ProfileEditorUIViewController.swift */; };
@@ -38,15 +40,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D00C3CF1CBD7C6100696E6D /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1D1FCC781CB31D3500403206 /* Play Squash.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Play Squash.entitlements"; sourceTree = "<group>"; };
 		1D1FCC791CB31D3D00403206 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		1D1FCC7B1CB6D9A300403206 /* AppCloudData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCloudData.swift; sourceTree = "<group>"; };
+		1D1FCC7D1CB6DB5C00403206 /* AppUserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUserProfile.swift; sourceTree = "<group>"; };
 		1DD8BED11BD9864B0032BAAC /* Play Squash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Play Squash.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DD8BED41BD9864B0032BAAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DD8BED61BD9864B0032BAAC /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		1DD8BED81BD9864B0032BAAC /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		1DD8BEDB1BD9864B0032BAAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1DD8BEDD1BD9864B0032BAAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		1DD8BEE01BD9864B0032BAAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1DD8BEE21BD9864B0032BAAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DD8BEE71BD9864B0032BAAC /* Play SquashTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Play SquashTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DD8BEEB1BD9864B0032BAAC /* Play_SquashTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Play_SquashTests.swift; sourceTree = "<group>"; };
@@ -115,9 +119,11 @@
 				1DD8BED81BD9864B0032BAAC /* SecondViewController.swift */,
 				1DD8BEDA1BD9864B0032BAAC /* Main.storyboard */,
 				1DDBC51C1C18F1AD0043FB33 /* AppSharedData.swift */,
+				1D1FCC7D1CB6DB5C00403206 /* AppUserProfile.swift */,
 				1DD8BEDD1BD9864B0032BAAC /* Assets.xcassets */,
-				1DD8BEDF1BD9864B0032BAAC /* LaunchScreen.storyboard */,
 				1DD8BEE21BD9864B0032BAAC /* Info.plist */,
+				1D1FCC7B1CB6D9A300403206 /* AppCloudData.swift */,
+				1D00C3CF1CBD7C6100696E6D /* Launch Screen.storyboard */,
 			);
 			path = "Play Squash";
 			sourceTree = "<group>";
@@ -209,6 +215,9 @@
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = NK75AE6J46;
 						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
@@ -249,7 +258,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DD8BEE11BD9864B0032BAAC /* LaunchScreen.storyboard in Resources */,
+				1D00C3D01CBD7C6100696E6D /* Launch Screen.storyboard in Resources */,
 				1DD8BEDE1BD9864B0032BAAC /* Assets.xcassets in Resources */,
 				1DD8BEDC1BD9864B0032BAAC /* Main.storyboard in Resources */,
 			);
@@ -281,6 +290,8 @@
 				1DD8BED51BD9864B0032BAAC /* AppDelegate.swift in Sources */,
 				1DD8BED71BD9864B0032BAAC /* FirstViewController.swift in Sources */,
 				1DDBC5171C1651400043FB33 /* ProfileEditorUIViewController.swift in Sources */,
+				1D1FCC7E1CB6DB5C00403206 /* AppUserProfile.swift in Sources */,
+				1D1FCC7C1CB6D9A300403206 /* AppCloudData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,14 +335,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		1DD8BEDF1BD9864B0032BAAC /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1DD8BEE01BD9864B0032BAAC /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -371,7 +374,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -409,7 +412,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

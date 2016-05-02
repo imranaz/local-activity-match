@@ -28,14 +28,17 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        // load data from app directory if user had saved it prior
-        sharedData.loadPlayerProfileInformation();
-        if sharedData.validProfile  == "true" {
-            profileImage.image = sharedData.playerProfileImage
-            playerNameTextField.text = sharedData.playerFirstName + " " + sharedData.playerLastName
-            mobilePhoneTextField.text = sharedData.playerPhone
-            homeClubTextField.text = sharedData.playerHomeClub
-            ratingTextField.text = sharedData.playerRating
+        // Load user profile data from app directory first if it exists, otherwise fetch it from the cloud
+        if !sharedData.userProfile.fetchProfileFromDisk() {
+            sharedData.cloudData.fetchUserProfile(sharedData.userProfile)
+        }
+        
+        if sharedData.userProfile.isValid() {
+            profileImage.image = sharedData.userProfile.userImage
+            playerNameTextField.text = sharedData.userProfile.userFirstName + " " + sharedData.userProfile.userLastName
+            mobilePhoneTextField.text = sharedData.userProfile.userPhone
+            homeClubTextField.text = sharedData.userProfile.userHomeClub.simpleDescription()
+            ratingTextField.text = sharedData.userProfile.userRating
         }
     }
     
@@ -48,11 +51,11 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     
     @IBAction func unwindToUserProfile(sender: UIStoryboardSegue) {
         // Code to perform on return from editing user profile
-        profileImage.image = sharedData.playerProfileImage
-        playerNameTextField.text = sharedData.playerFirstName + " " + sharedData.playerLastName
-        mobilePhoneTextField.text = sharedData.playerPhone
-        homeClubTextField.text = sharedData.playerHomeClub
-        ratingTextField.text = sharedData.playerRating
+        profileImage.image = sharedData.userProfile.userImage
+        playerNameTextField.text = sharedData.userProfile.userFirstName + " " + sharedData.userProfile.userLastName
+        mobilePhoneTextField.text = sharedData.userProfile.userPhone
+        homeClubTextField.text = sharedData.userProfile.userHomeClub.simpleDescription()
+        ratingTextField.text = sharedData.userProfile.userRating
     }
     
     // TableView methods

@@ -33,18 +33,20 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileEditorUIViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        // load data from app directory if user had saved it prior
-        sharedData.loadPlayerProfileInformation();
+        // Load user profile data from app directory first if it exists, otherwise fetch it from the cloud
+        if !sharedData.userProfile.fetchProfileFromDisk() {
+            sharedData.cloudData.fetchUserProfile(sharedData.userProfile)
+        }
         
         imagePicker.delegate = self
-        if sharedData.validProfile == "true" {
-            imageThumbnail.image = sharedData.playerProfileImage
-            firstNameTextField.text = self.sharedData.playerFirstName
-            lastNameTextField.text = self.sharedData.playerLastName
-            mobilePhoneTextField.text = self.sharedData.playerPhone
-            ratingTextField.text = self.sharedData.playerRating
-            homeClubTextField.text = self.sharedData.playerHomeClub
-            squashIDTextField.text = self.sharedData.playerSquashID
+        if sharedData.userProfile.isValid() {
+            imageThumbnail.image = sharedData.userProfile.userImage
+            firstNameTextField.text = sharedData.userProfile.userFirstName
+            lastNameTextField.text = sharedData.userProfile.userLastName
+            mobilePhoneTextField.text = sharedData.userProfile.userPhone
+            ratingTextField.text = sharedData.userProfile.userRating
+            homeClubTextField.text = sharedData.userProfile.userHomeClub.simpleDescription()
+            squashIDTextField.text =  sharedData.userProfile.userSquashID
         }
         
         firstNameTextField.delegate = self
@@ -80,14 +82,16 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if saveButton === sender {
-            self.sharedData.playerProfileImage = imageThumbnail.image
-            self.sharedData.playerFirstName = firstNameTextField.text
-            self.sharedData.playerLastName = lastNameTextField.text
-            self.sharedData.playerPhone = mobilePhoneTextField.text
-            self.sharedData.playerRating = ratingTextField.text
-            self.sharedData.playerHomeClub = homeClubTextField.text
-            sharedData.validProfile = "true"
-            sharedData.persistPlayerProfileInformation();
+            self.sharedData.userProfile.userImage = imageThumbnail.image
+            self.sharedData.userProfile.userFirstName = firstNameTextField.text!
+            self.sharedData.userProfile.userLastName = lastNameTextField.text!
+            self.sharedData.userProfile.userPhone = mobilePhoneTextField.text!
+            self.sharedData.userProfile.userRating = ratingTextField.text!
+            self.sharedData.userProfile.userHomeClub = sharedData.userProfile.userHomeClub.ConvertToEnum(homeClubTextField.text!)
+            
+            // Persist profile information entered by the user to both local device and the cloud
+            sharedData.userProfile.persistProfileToDisk();
+            sharedData.cloudData.persistUserProfile(sharedData.userProfile)
         }
     }
 

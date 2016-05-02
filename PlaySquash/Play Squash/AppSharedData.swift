@@ -15,14 +15,21 @@ class AppShareData {
             static var instance: AppShareData?
             static var token: dispatch_once_t = 0
         }
-        
+        //TODO: Use Swift singleton pattern instead
         dispatch_once(&Static.token) {
             Static.instance = AppShareData()
+            Static.instance!.userProfile = AppUserProfile()
+            Static.instance!.cloudData = AppCloudData()
         }
         
         return Static.instance!
     }
     
+    var userProfile : AppUserProfile!
+    var cloudData : AppCloudData!
+}
+    /*
+ 
     var validProfile : String = "false"
     var playerProfileImage : UIImage!
     var playerFirstName : String! = ""
@@ -91,4 +98,4 @@ class AppShareData {
             }
         }
     }
-}
+     */

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
@@ -15,7 +16,26 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Play sports and improve your skills" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SdV-he-7al">
+                                <rect key="frame" x="148" y="493" width="304" height="33"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.2442253527745965" green="0.58369391025641026" blue="0.32155995924167691" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="launchIcon" translatesAutoresizingMaskIntoConstraints="NO" id="lYi-8W-Wym">
+                                <rect key="frame" x="184" y="200" width="462" height="522"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="SdV-he-7al" secondAttribute="bottom" constant="116" id="DdN-as-i7W"/>
+                            <constraint firstItem="SdV-he-7al" firstAttribute="centerX" secondItem="lYi-8W-Wym" secondAttribute="centerX" id="Xnh-fc-u87"/>
+                            <constraint firstItem="lYi-8W-Wym" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="kAJ-md-Aho"/>
+                            <constraint firstItem="lYi-8W-Wym" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="o8Y-Tj-GmV"/>
+                            <constraint firstItem="SdV-he-7al" firstAttribute="top" secondItem="lYi-8W-Wym" secondAttribute="bottom" constant="120" id="oRC-83-UhK"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -23,4 +43,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launchIcon" width="464" height="522"/>
+    </resources>
 </document>
