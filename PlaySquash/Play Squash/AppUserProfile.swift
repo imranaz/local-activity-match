@@ -179,7 +179,7 @@ class AppUserProfile {
                 
                 // Write user profile image to disk
                 let pngFilePath = urlDocuments.URLByAppendingPathComponent(DeviceFileNames.PlayerImageFileName.simpleDescription())
-                self.userImageURL = pngFilePath
+                self.userImageURL = NSURL(fileURLWithPath: pngFilePath.path!)
                 UIImagePNGRepresentation(userImage!)?.writeToFile(pngFilePath.path!, atomically: true)
             }
         }

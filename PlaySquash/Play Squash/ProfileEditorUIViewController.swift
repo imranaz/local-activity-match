@@ -19,7 +19,8 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
     @IBOutlet weak var homeClubTextField: UITextField!
     @IBOutlet weak var ratingTextField: UITextField!
     @IBOutlet weak var squashIDTextField: UITextField!
-   
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var nicknameField: UITextField!
     
     let imagePicker = UIImagePickerController()
     let sharedData = AppShareData.sharedInstance
@@ -35,7 +36,7 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
         
         // Load user profile data from app directory first if it exists, otherwise fetch it from the cloud
         if !sharedData.userProfile.fetchProfileFromDisk() {
-            sharedData.cloudData.fetchUserProfile(sharedData.userProfile)
+            //sharedData.cloudData.fetchUserProfile(sharedData.userProfile)
         }
         
         imagePicker.delegate = self
@@ -47,6 +48,8 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
             ratingTextField.text = sharedData.userProfile.userRating
             homeClubTextField.text = sharedData.userProfile.userHomeClub.simpleDescription()
             squashIDTextField.text =  sharedData.userProfile.userSquashID
+            emailField.text = sharedData.userProfile.userEmail
+            nicknameField.text = sharedData.userProfile.userNickName
         }
         
         firstNameTextField.delegate = self
@@ -57,6 +60,8 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
         homeClubTextField.delegate = self
         ratingTextField.delegate = self
         squashIDTextField.delegate = self
+        emailField.delegate = self
+        nicknameField.delegate = self
         
         checkValidFormFields()
     }
@@ -88,6 +93,8 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
             self.sharedData.userProfile.userPhone = mobilePhoneTextField.text!
             self.sharedData.userProfile.userRating = ratingTextField.text!
             self.sharedData.userProfile.userHomeClub = sharedData.userProfile.userHomeClub.ConvertToEnum(homeClubTextField.text!)
+            self.sharedData.userProfile.userEmail = emailField.text!
+            self.sharedData.userProfile.userNickName = nicknameField.text!
             
             // Persist profile information entered by the user to both local device and the cloud
             sharedData.userProfile.persistProfileToDisk();

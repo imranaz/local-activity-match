@@ -14,7 +14,7 @@ import UIKit
 class AppCloudData {
 
     struct RecordName {
-        static let UserProfile = "MyUserProfileRecord"
+        static let UserProfile = "UserProfile"
     }
     
     // Types of app records that can be queries
@@ -25,9 +25,7 @@ class AppCloudData {
             switch self {
             case .UserProfile:
                 return "UserProfile"
-            default:
-                return String(self.rawValue)
-            }
+             }
         }
     }
     
@@ -35,8 +33,6 @@ class AppCloudData {
         switch recordType {
         case .UserProfile:
                 return RecordName.UserProfile
-        default:
-                return "N/A"
         }
     }
     
@@ -108,99 +104,108 @@ class AppCloudData {
         
         // Synchronization of execution blocks
         let operationQueue = NSOperationQueue()
-        var fetchOperationFailed : Bool = false
-        
         var myRecord = CKRecord(recordType: userProfileRecordType.simpleDescription(),
                                 recordID: self.profileRecordID)
-
-        // Try to first fetch the profile record if it already exists
-        self.privateDB.fetchRecordWithID(self.profileRecordID) {
-        returnRecord, error in
-            if let err = error {
-                fetchOperationFailed = true
-            } else {
-                myRecord = returnRecord!
-            }
-        }
-
-        // Set the properties of the record to save to iCloud
         
-        myRecord.setObject(userProfile.userFirstName,
-                           forKey: AppUserProfile.ProfilePropertyName.FirstName)
-        myRecord.setObject(userProfile.userLastName,
-                           forKey: AppUserProfile.ProfilePropertyName.LastName)
-        myRecord.setObject(userProfile.userNickName,
-                           forKey: AppUserProfile.ProfilePropertyName.NickName)
-        myRecord.setObject(userProfile.userEmail,
-                           forKey: AppUserProfile.ProfilePropertyName.Email)
-        myRecord.setObject(userProfile.userPhone,
-                           forKey: AppUserProfile.ProfilePropertyName.Phone)
-        myRecord.setObject(userProfile.userRating,
-                           forKey: AppUserProfile.ProfilePropertyName.NickName)
-        myRecord.setObject(userProfile.userHomeClub.simpleDescription(),
-                           forKey: AppUserProfile.ProfilePropertyName.HomeClub)
-        
-        let imageAsset = CKAsset(fileURL: userProfile.userImageURL!)
-        myRecord.setObject(imageAsset, forKey: AppUserProfile.ProfilePropertyName.Image)
-        
-        // Wrap saving an iCloud record within an operation block to be executed on condition
         let blockOperation = NSBlockOperation {
+            // Set the properties of the record to save to iCloud
+            myRecord.setObject(userProfile.userFirstName,
+                forKey: AppUserProfile.ProfilePropertyName.FirstName)
+            myRecord.setObject(userProfile.userLastName,
+                forKey: AppUserProfile.ProfilePropertyName.LastName)
+            myRecord.setObject(userProfile.userNickName,
+                forKey: AppUserProfile.ProfilePropertyName.NickName)
+            myRecord.setObject(userProfile.userEmail,
+                forKey: AppUserProfile.ProfilePropertyName.Email)
+            myRecord.setObject(userProfile.userPhone,
+                forKey: AppUserProfile.ProfilePropertyName.Phone)
+            myRecord.setObject(userProfile.userRating,
+                forKey: AppUserProfile.ProfilePropertyName.Rating)
+            myRecord.setObject(userProfile.userHomeClub.simpleDescription(),
+                forKey: AppUserProfile.ProfilePropertyName.HomeClub)
+            
+            let imageAsset = CKAsset(fileURL: userProfile.userImageURL!)
+            myRecord.setObject(imageAsset, forKey: AppUserProfile.ProfilePropertyName.Image)
+            
+            // Wrap saving an iCloud record within an operation block to be executed on condition
             self.privateDB.saveRecord(myRecord) {
-            returnRecord, error in
-                if let err = error {
+                returnRecord, error in
+                if error != nil {
                     iCloudAccessErrorOccurred = true
                 } else {
                     self.profileRecord = myRecord
                 }
             }
         }
-        
-        // Only execute save record if the preceeding iCloud fetch operation failed
-        if fetchOperationFailed {
-            operationQueue.addOperation(blockOperation)
+
+        // Try to first fetch the profile record if it already exists
+        self.privateDB.fetchRecordWithID(self.profileRecordID) {
+        returnRecord, error in
+            if error != nil {
+                operationQueue.addOperation(blockOperation)
+            } else {
+                // There is an existing record already. Use it and add the additional properties before saving.
+                myRecord = returnRecord!
+                operationQueue.addOperation(blockOperation)
+            }
         }
         
         return iCloudAccessErrorOccurred
     }
     
     // Fetch the current logged in user's profile record
-    func fetchUserProfile(userProfile : AppUserProfile) -> Bool {
-        var iCloudAccessErrorOccurred : Bool = false
+    func fetchUserProfile(userProfile : AppUserProfile, completionClosure: (() -> Void)) -> Bool {
 
         // Create a record with the profile properties provided by the caler
         var myRecord = CKRecord(recordType: userProfileRecordType.simpleDescription(),
                                 recordID: self.profileRecordID)
         
-        // Try to fetch the profile record if it exists
-        self.privateDB.fetchRecordWithID(self.profileRecordID) {
-            returnRecord, error in
-            if let err = error {
-                iCloudAccessErrorOccurred = true
+        // Synchronization of execution blocks
+        let operationQueue = NSOperationQueue()
+        var fetchOperationFailed : Bool = false
+
+        // Block to execute if the iCloud fetch operation succeeds in retrieving a user profile record
+        let blockOperation = NSBlockOperation {
+            userProfile.userFirstName = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.FirstName) as! String
+            userProfile.userLastName = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.LastName) as! String
+            userProfile.userNickName = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.NickName) as! String
+            userProfile.userEmail = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.Email) as! String
+            userProfile.userPhone = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.Phone) as! String
+            userProfile.userRating = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.Rating) as! String
+            userProfile.userHomeClub.ConvertToEnum(myRecord.objectForKey(AppUserProfile.ProfilePropertyName.HomeClub) as! String)
+            
+            let imageAsset = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.Image) as! CKAsset
+            let urlImage = imageAsset.fileURL
+            
+            // Load image from disk
+            if let loadedImage = UIImage(contentsOfFile: urlImage.path!) {
+                userProfile.userImage = loadedImage
+                userProfile.userImageURL = urlImage
+                fetchOperationFailed = false
             } else {
-                myRecord = returnRecord!
+                fetchOperationFailed = true
+            }
+            
+            if !fetchOperationFailed {
+                // Execute completion block on the main queue
+                let mainQueue = NSOperationQueue.mainQueue()
+                let operation = NSBlockOperation { completionClosure() }
+                mainQueue.addOperation(operation)
             }
         }
         
-        if iCloudAccessErrorOccurred { return false }
-        
-        userProfile.userFirstName = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.FirstName) as! String
-        userProfile.userLastName = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.LastName) as! String
-        userProfile.userNickName = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.NickName) as! String
-        userProfile.userEmail = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.Email) as! String
-        userProfile.userPhone = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.Phone) as! String
-        userProfile.userRating = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.Rating) as! String
-        userProfile.userHomeClub.ConvertToEnum(myRecord.objectForKey(AppUserProfile.ProfilePropertyName.HomeClub) as! String)
-        
-        let imageAsset = myRecord.objectForKey(AppUserProfile.ProfilePropertyName.Image) as! CKAsset
-        let urlImage = imageAsset.fileURL
-        
-        // Load image from disk
-        if let loadedImage = UIImage(contentsOfFile: urlImage.absoluteString) {
-            userProfile.userImage = loadedImage
-        } else {
-            iCloudAccessErrorOccurred = true
+        // Try to fetch the profile record if it exists
+        self.privateDB.fetchRecordWithID(self.profileRecordID) {
+            returnRecord, error in
+            if error != nil {
+                fetchOperationFailed = true
+                
+            } else {
+                myRecord = returnRecord!
+                operationQueue.addOperation(blockOperation)
+            }
         }
-
-        return iCloudAccessErrorOccurred
+        
+        return fetchOperationFailed
     }
 }

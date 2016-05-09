@@ -409,12 +409,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="emailField" destination="gSg-Fq-g2p" id="0dE-BS-zYr"/>
                         <outlet property="firstNameTextField" destination="UXj-Y8-Igi" id="ubH-Ar-qdi"/>
                         <outlet property="homeClubTextField" destination="2bU-h2-IHA" id="kwc-Zo-J8E"/>
                         <outlet property="imageThumbnail" destination="ukE-gc-4rM" id="Oj4-bx-aZS"/>
                         <outlet property="lastNameTextField" destination="4MI-J1-ple" id="5nZ-8t-M7q"/>
                         <outlet property="mobilePhoneTextField" destination="Zhc-ia-mTw" id="EZS-J2-mmP"/>
                         <outlet property="nickNameTextField" destination="dx9-ND-0Jl" id="ZZR-vI-svT"/>
+                        <outlet property="nicknameField" destination="dx9-ND-0Jl" id="Ud2-LL-z8G"/>
                         <outlet property="ratingTextField" destination="9ao-F8-w1O" id="jBz-6W-8kM"/>
                         <outlet property="saveButton" destination="QTf-Yd-OEr" id="jH3-Oa-JZd"/>
                         <outlet property="squashIDTextField" destination="xqE-nR-pm8" id="SeW-3Q-ju7"/>

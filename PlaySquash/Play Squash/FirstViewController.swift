@@ -24,24 +24,33 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
                            ("3/04/14", "W", "Joe Manaca", "9-6, 9-3, 1-9, 9-3", "SACD")]
     let sharedData = AppShareData.sharedInstance
     
+    // Update the profile card within the UI
+    func updateProfileCard() {
+        profileImage.image = sharedData.userProfile.userImage
+        playerNameTextField.text = sharedData.userProfile.userFirstName + " " + sharedData.userProfile.userLastName
+        mobilePhoneTextField.text = sharedData.userProfile.userPhone
+        homeClubTextField.text = sharedData.userProfile.userHomeClub.simpleDescription()
+        ratingTextField.text = sharedData.userProfile.userRating
+    }
+    
      override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        // Load user profile data from app directory first if it exists, otherwise fetch it from the cloud
-        if !sharedData.userProfile.fetchProfileFromDisk() {
-            sharedData.cloudData.fetchUserProfile(sharedData.userProfile)
+        // Load user profile data from app directory as an optimization for UI refresh
+        //sharedData.userProfile.fetchProfileFromDisk()
+        if sharedData.userProfile.isValid() {
+            updateProfileCard()
         }
         
-        if sharedData.userProfile.isValid() {
-            profileImage.image = sharedData.userProfile.userImage
-            playerNameTextField.text = sharedData.userProfile.userFirstName + " " + sharedData.userProfile.userLastName
-            mobilePhoneTextField.text = sharedData.userProfile.userPhone
-            homeClubTextField.text = sharedData.userProfile.userHomeClub.simpleDescription()
-            ratingTextField.text = sharedData.userProfile.userRating
+        // Async: retreive user profile information from iCloud to get any updates on other devices
+        sharedData.cloudData.fetchUserProfile(self.sharedData.userProfile) {
+            if self.sharedData.userProfile.isValid() {
+                self.updateProfileCard()
+            }
         }
     }
-    
+        
     // Navigation methods
 
     override func didReceiveMemoryWarning() {
