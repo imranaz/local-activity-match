@@ -8,19 +8,13 @@
 
 import UIKit
 
-class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
-    @IBOutlet weak var saveButton: UIBarButtonItem!
+class ProfileEditorTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
-    @IBOutlet weak var imageThumbnail: UIImageView!
-    @IBOutlet weak var firstNameTextField: UITextField!
-    @IBOutlet weak var lastNameTextField: UITextField!
-    @IBOutlet weak var nickNameTextField: UITextField!
-    @IBOutlet weak var mobilePhoneTextField: UITextField!
-    @IBOutlet weak var homeClubTextField: UITextField!
-    @IBOutlet weak var ratingTextField: UITextField!
-    @IBOutlet weak var squashIDTextField: UITextField!
-    @IBOutlet weak var emailField: UITextField!
-    @IBOutlet weak var nicknameField: UITextField!
+    @IBOutlet weak var saveButton: UIButton!
+    
+    var imageThumbnail: UIImageView!
+    var firstNameTextField: UITextField!
+    var lastNameTextField: UITextField!
     
     let imagePicker = UIImagePickerController()
     let sharedData = AppShareData.sharedInstance
@@ -29,41 +23,15 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let navController = self.navigationController as! CustomNavController
+        let progressView = navController.progressView!
         
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileEditorUIViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+        // Load user profile data from app directory as an optimization for UI refresh
+        progressView.setProgress(1.0, animated: true)
         
-        // Load user profile data from app directory first if it exists, otherwise fetch it from the cloud
-        if !sharedData.userProfile.fetchProfileFromDisk() {
-            //sharedData.cloudData.fetchUserProfile(sharedData.userProfile)
-        }
-        
-        imagePicker.delegate = self
-        if sharedData.userProfile.isValid() {
-            imageThumbnail.image = sharedData.userProfile.userImage
-            firstNameTextField.text = sharedData.userProfile.userFirstName
-            lastNameTextField.text = sharedData.userProfile.userLastName
-            mobilePhoneTextField.text = sharedData.userProfile.userPhone
-            ratingTextField.text = sharedData.userProfile.userRating
-            homeClubTextField.text = sharedData.userProfile.userHomeClub.simpleDescription()
-            squashIDTextField.text =  sharedData.userProfile.userSquashID
-            emailField.text = sharedData.userProfile.userEmail
-            nicknameField.text = sharedData.userProfile.userNickName
-        }
-        
-        firstNameTextField.delegate = self
-        lastNameTextField.delegate = self
-        mobilePhoneTextField.delegate = self
-        nickNameTextField.delegate = self
-        mobilePhoneTextField.delegate = self
-        homeClubTextField.delegate = self
-        ratingTextField.delegate = self
-        squashIDTextField.delegate = self
-        emailField.delegate = self
-        nicknameField.delegate = self
-        
-        checkValidFormFields()
+        // Load user profile data from app directory
+        sharedData.userProfile.fetchProfileFromDisk()
+        progressView.hidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,14 +40,16 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
     }
     
     // MARK: - Navigation
-    @IBAction func cancel(sender: AnyObject) {
+    @IBAction func cancelButtonAction(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    //Calls this function when the tap is recognized.
-    func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
+    func saveButton(sender: AnyObject) {
+        // Persist profile information entered by the user to both local device and the cloud
+        sharedData.userProfile.persistProfileToDisk();
+        sharedData.cloudData.persistUserProfile(sharedData.userProfile)
+        
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -90,65 +60,53 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
             self.sharedData.userProfile.userImage = imageThumbnail.image
             self.sharedData.userProfile.userFirstName = firstNameTextField.text!
             self.sharedData.userProfile.userLastName = lastNameTextField.text!
-            self.sharedData.userProfile.userPhone = mobilePhoneTextField.text!
-            self.sharedData.userProfile.userRating = ratingTextField.text!
-            self.sharedData.userProfile.userHomeClub = sharedData.userProfile.userHomeClub.ConvertToEnum(homeClubTextField.text!)
-            self.sharedData.userProfile.userEmail = emailField.text!
-            self.sharedData.userProfile.userNickName = nicknameField.text!
             
             // Persist profile information entered by the user to both local device and the cloud
             sharedData.userProfile.persistProfileToDisk();
-            sharedData.cloudData.persistUserProfile(sharedData.userProfile)
+            //sharedData.cloudData.persistUserProfile(sharedData.userProfile)
         }
     }
 
     // Form validation logic
-
-    func textFieldDidBeginEditing(textField: UITextField) {
-        // Disable the Save button while editing.
-        saveButton.enabled = false
-        if ((textField == homeClubTextField) || (textField == ratingTextField) || (textField == squashIDTextField)) {
-            animateViewMoving(true, moveValue: 100)
-        }
-    }
-    
-    func textFieldDidEndEditing(textField: UITextField) {
-        checkValidFormFields()
-        if ((textField == homeClubTextField) || (textField == ratingTextField) || (textField == squashIDTextField)) {
-            animateViewMoving(false, moveValue: 100)
-        }
-    }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
+        
         return true
     }
-
-    func animateViewMoving (up:Bool, moveValue :CGFloat){
-        let movementDuration:NSTimeInterval = 0.3
-        let movement:CGFloat = ( up ? -moveValue : moveValue)
-        UIView.beginAnimations( "animateView", context: nil)
-        UIView.setAnimationBeginsFromCurrentState(true)
-        UIView.setAnimationDuration(movementDuration )
-        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
-        UIView.commitAnimations()
-    }
     
-    func checkValidFormFields() {
+    func isValidForm() -> Bool {
         // Disable the Save button if manditory name fields are empty.
         let firstName = firstNameTextField.text ?? ""
         let lastName = lastNameTextField.text ?? ""
-        let mobilePhone = mobilePhoneTextField.text ?? ""
-        let homeClub = homeClubTextField.text ?? ""
-        let rating = ratingTextField.text ?? ""
-        saveButton.enabled = !(firstName.isEmpty && lastName.isEmpty && mobilePhone.isEmpty && homeClub.isEmpty && rating.isEmpty)
+        
+        return !((firstName == "") || (lastName == "") || imageThumbnail == nil)
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        // Make sure the form is still valid after editing.
+        if self.isValidForm() {
+            saveButton.enabled = false
+        }
     }
     
     // Format a phone number text field
     // Credit: http://stackoverflow.com/questions/1246439/uitextfield-for-phone-number
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        if textField == mobilePhoneTextField {
+        
+        var isMobileField = false
+        
+        // Determine if field being edited is a phone number
+        if let containerView = textField.superview {
+            if let customCell = containerView as? UserProfileTableViewCell {
+                if customCell.propertyField.text == "mobile" {
+                    isMobileField = true
+                }
+            }
+        }
+        
+        if isMobileField {
             let newString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
             let components = newString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
             
@@ -203,7 +161,7 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
-    // MARK: - UIImagePickerControllerDelegate Methods
+    // UIImagePickerControllerDelegate Methods
     
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
         let selectedImage : UIImage = image
@@ -212,5 +170,122 @@ class ProfileEditorUIViewController: UIViewController, UIImagePickerControllerDe
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    // UITableViewDataSource Protocol Methods
     
+    let sectionName = ["Personal Info", "Contact Info", "Club Info", "Squash Info", "Coaching Info", "Pricing"]
+    let cellName = [["photo and name"],["email", "mobile"], ["name", "city", "state", "country"], ["level", "ranking"], ["highest rank", "experience"], ["adult", "junior", "assesement"]]
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return sectionName.count
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (section == 4 || section == 5) {
+            return 0
+        } else {
+            return self.cellName[section].count
+        }
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.sectionName[section]
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        if indexPath.section == 0 {
+            return 120.0
+        } else {
+            return 48.0
+        }
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
+    {
+        var sectionHeight = CGFloat(0.0)
+        switch section {
+        case 0, 4, 5:
+            sectionHeight = 0.0
+        default:
+            sectionHeight = 20.0
+            
+        }
+        return sectionHeight
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        // Special case for the first section, since it has a differnt layout for image and name
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("PhotoCell", forIndexPath: indexPath) as! UserProfilePhotoCell
+            
+            if sharedData.userProfile.isValid() {
+                cell.firstnameField.text = sharedData.userProfile.userFirstName
+                cell.lastnameField.text = sharedData.userProfile.userLastName
+                cell.profileImage.image = sharedData.userProfile.userImage
+                
+                cell.firstnameField.textColor = UIColor.blackColor()
+                cell.lastnameField.textColor = UIColor.blackColor()
+                
+                if sharedData.userProfile.userNickName != "" {
+                    cell.nicknameField.text = sharedData.userProfile.userNickName
+                    cell.nicknameField.textColor = UIColor.blackColor()
+                }
+            }
+            // Set instance variable used in other functionals within the class
+            self.imageThumbnail = cell.profileImage
+            self.firstNameTextField = cell.firstnameField
+            self.lastNameTextField = cell.lastnameField
+                
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("DefaultCell", forIndexPath: indexPath) as! UserProfileTableViewCell
+
+            cell.propertyLabel.text = cellName[indexPath.section][indexPath.row]
+            
+            if !sharedData.userProfile.isValid() { return cell }
+            
+            switch indexPath.section {
+            case 1:
+                switch indexPath.row {
+                case 0:
+                    cell.propertyField.text = sharedData.userProfile.userEmail
+                    cell.propertyField.keyboardType = UIKeyboardType.EmailAddress
+                case 1:
+                    cell.propertyField.text = sharedData.userProfile.userPhone
+                    cell.propertyField.keyboardType = UIKeyboardType.NumberPad
+                default:
+                    cell.propertyField.text = ""
+                }
+            case 2:
+                switch indexPath.row {
+                case 0:
+                    cell.propertyField.text = sharedData.userProfile.userHomeClub.simpleDescription()
+                    cell.propertyField.keyboardType = UIKeyboardType.Default
+                case 1:
+                    cell.propertyField.text = "Seattle"
+                case 2:
+                    cell.propertyField.text = "WA"
+                case 3:
+                    cell.propertyField.text = "United States"
+                default:
+                    cell.propertyField.text = ""
+                }
+            case 3:
+                switch indexPath.row {
+                case 0:
+                    cell.propertyField.text = "A"
+                    cell.propertyField.keyboardType = UIKeyboardType.Default
+                case 1:
+                    cell.propertyField.text = sharedData.userProfile.userRating
+                default:
+                    cell.propertyField.text = ""
+                }
+            default:
+                cell.propertyField.text = "Default"
+            }
+            
+            return cell
+        }
+    }
 }

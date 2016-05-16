@@ -11,6 +11,7 @@
 		1D1FCC7A1CB31D3D00403206 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1FCC791CB31D3D00403206 /* CloudKit.framework */; };
 		1D1FCC7C1CB6D9A300403206 /* AppCloudData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1FCC7B1CB6D9A300403206 /* AppCloudData.swift */; };
 		1D1FCC7E1CB6DB5C00403206 /* AppUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1FCC7D1CB6DB5C00403206 /* AppUserProfile.swift */; };
+		1D9112681CE1C0F700C64099 /* CustomNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9112671CE1C0F700C64099 /* CustomNavController.swift */; };
 		1DD8BED51BD9864B0032BAAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BED41BD9864B0032BAAC /* AppDelegate.swift */; };
 		1DD8BED71BD9864B0032BAAC /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BED61BD9864B0032BAAC /* FirstViewController.swift */; };
 		1DD8BED91BD9864B0032BAAC /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BED81BD9864B0032BAAC /* SecondViewController.swift */; };
@@ -18,7 +19,8 @@
 		1DD8BEDE1BD9864B0032BAAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DD8BEDD1BD9864B0032BAAC /* Assets.xcassets */; };
 		1DD8BEEC1BD9864B0032BAAC /* Play_SquashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BEEB1BD9864B0032BAAC /* Play_SquashTests.swift */; };
 		1DD8BEF71BD9864B0032BAAC /* Play_SquashUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8BEF61BD9864B0032BAAC /* Play_SquashUITests.swift */; };
-		1DD9C8741CE45D3900EEBFA6 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1DD9C8731CE45D3900EEBFA6 /* .gitignore */; };
+		1DD9C8301CE2807100EEBFA6 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9C82F1CE2807100EEBFA6 /* UserProfileTableViewCell.swift */; };
+		1DD9C8321CE2DEC700EEBFA6 /* UserProfilePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9C8311CE2DEC700EEBFA6 /* UserProfilePhotoCell.swift */; };
 		1DDBC5171C1651400043FB33 /* ProfileEditorUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBC5161C1651400043FB33 /* ProfileEditorUIViewController.swift */; };
 		1DDBC51D1C18F1AD0043FB33 /* AppSharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBC51C1C18F1AD0043FB33 /* AppSharedData.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +48,7 @@
 		1D1FCC791CB31D3D00403206 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		1D1FCC7B1CB6D9A300403206 /* AppCloudData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCloudData.swift; sourceTree = "<group>"; };
 		1D1FCC7D1CB6DB5C00403206 /* AppUserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUserProfile.swift; sourceTree = "<group>"; };
+		1D9112671CE1C0F700C64099 /* CustomNavController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavController.swift; path = "Play Squash/CustomNavController.swift"; sourceTree = "<group>"; };
 		1DD8BED11BD9864B0032BAAC /* Play Squash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Play Squash.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DD8BED41BD9864B0032BAAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DD8BED61BD9864B0032BAAC /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -59,7 +62,8 @@
 		1DD8BEF21BD9864B0032BAAC /* Play SquashUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Play SquashUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DD8BEF61BD9864B0032BAAC /* Play_SquashUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Play_SquashUITests.swift; sourceTree = "<group>"; };
 		1DD8BEF81BD9864B0032BAAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1DD9C8731CE45D3900EEBFA6 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		1DD9C82F1CE2807100EEBFA6 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
+		1DD9C8311CE2DEC700EEBFA6 /* UserProfilePhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfilePhotoCell.swift; sourceTree = "<group>"; };
 		1DDBC5161C1651400043FB33 /* ProfileEditorUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditorUIViewController.swift; sourceTree = "<group>"; };
 		1DDBC51C1C18F1AD0043FB33 /* AppSharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSharedData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,9 +94,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D70946A1CEA6021000AE434 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1DDBC51C1C18F1AD0043FB33 /* AppSharedData.swift */,
+				1D1FCC7D1CB6DB5C00403206 /* AppUserProfile.swift */,
+				1D1FCC7B1CB6D9A300403206 /* AppCloudData.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		1D70946B1CEA6033000AE434 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1DD8BED61BD9864B0032BAAC /* FirstViewController.swift */,
+				1DDBC5161C1651400043FB33 /* ProfileEditorUIViewController.swift */,
+				1DD8BED81BD9864B0032BAAC /* SecondViewController.swift */,
+				1DD9C8311CE2DEC700EEBFA6 /* UserProfilePhotoCell.swift */,
+				1DD9C82F1CE2807100EEBFA6 /* UserProfileTableViewCell.swift */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		1D70946C1CEA604D000AE434 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				1DD8BEDA1BD9864B0032BAAC /* Main.storyboard */,
+				1D00C3CF1CBD7C6100696E6D /* Launch Screen.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
 		1DD8BEC81BD9864A0032BAAC = {
 			isa = PBXGroup;
 			children = (
+				1D9112671CE1C0F700C64099 /* CustomNavController.swift */,
 				1D1FCC791CB31D3D00403206 /* CloudKit.framework */,
 				1DD8BED31BD9864B0032BAAC /* Play Squash */,
 				1DD8BEEA1BD9864B0032BAAC /* Play SquashTests */,
@@ -116,17 +152,11 @@
 			children = (
 				1D1FCC781CB31D3500403206 /* Play Squash.entitlements */,
 				1DD8BED41BD9864B0032BAAC /* AppDelegate.swift */,
-				1DD8BED61BD9864B0032BAAC /* FirstViewController.swift */,
-				1DDBC5161C1651400043FB33 /* ProfileEditorUIViewController.swift */,
-				1DD8BED81BD9864B0032BAAC /* SecondViewController.swift */,
-				1DD8BEDA1BD9864B0032BAAC /* Main.storyboard */,
-				1DDBC51C1C18F1AD0043FB33 /* AppSharedData.swift */,
-				1D1FCC7D1CB6DB5C00403206 /* AppUserProfile.swift */,
+				1D70946A1CEA6021000AE434 /* Model */,
+				1D70946C1CEA604D000AE434 /* Storyboards */,
+				1D70946B1CEA6033000AE434 /* UI */,
 				1DD8BEDD1BD9864B0032BAAC /* Assets.xcassets */,
 				1DD8BEE21BD9864B0032BAAC /* Info.plist */,
-				1D1FCC7B1CB6D9A300403206 /* AppCloudData.swift */,
-				1D00C3CF1CBD7C6100696E6D /* Launch Screen.storyboard */,
-				1DD9C8731CE45D3900EEBFA6 /* .gitignore */,
 			);
 			path = "Play Squash";
 			sourceTree = "<group>";
@@ -261,7 +291,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DD9C8741CE45D3900EEBFA6 /* .gitignore in Resources */,
 				1D00C3D01CBD7C6100696E6D /* Launch Screen.storyboard in Resources */,
 				1DD8BEDE1BD9864B0032BAAC /* Assets.xcassets in Resources */,
 				1DD8BEDC1BD9864B0032BAAC /* Main.storyboard in Resources */,
@@ -289,9 +318,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D9112681CE1C0F700C64099 /* CustomNavController.swift in Sources */,
+				1DD9C8301CE2807100EEBFA6 /* UserProfileTableViewCell.swift in Sources */,
 				1DD8BED91BD9864B0032BAAC /* SecondViewController.swift in Sources */,
 				1DDBC51D1C18F1AD0043FB33 /* AppSharedData.swift in Sources */,
 				1DD8BED51BD9864B0032BAAC /* AppDelegate.swift in Sources */,
+				1DD9C8321CE2DEC700EEBFA6 /* UserProfilePhotoCell.swift in Sources */,
 				1DD8BED71BD9864B0032BAAC /* FirstViewController.swift in Sources */,
 				1DDBC5171C1651400043FB33 /* ProfileEditorUIViewController.swift in Sources */,
 				1D1FCC7E1CB6DB5C00403206 /* AppUserProfile.swift in Sources */,

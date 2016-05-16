@@ -16,12 +16,12 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     @IBOutlet weak var homeClubTextField: UILabel!
     @IBOutlet weak var ratingTextField: UILabel!
     
-    let squashMatchList = [("12/03/15", "W", "Muhammad Kapasi", "8-9, 9-7, 9-2, 3-9, 9-6", "ProClub"),
-                           ("11/03/15", "W", "Alex Bard", "9-4, 6-9, 9-3, 7-9, 9-3", "SACD"),
-                           ("10/27/15", "W", "Phil Chung", "9-5, 4-9, 8-9, 9-7, 9-2", "SACN"),
-                           ("5/16/15", "L", "Andrew Patterson", "9-2 9-4, 9-6", "BCSF"),
-                           ("3/25/14", "L", "Axel Luft", "9-7, 9-1, 9-3", "ProClub"),
-                           ("3/04/14", "W", "Joe Manaca", "9-6, 9-3, 1-9, 9-3", "SACD")]
+    let squashMatchList = [("5/03/16", "W", "Muhammad Kapasi", "Pro Sports Club"),
+                           ("4/15/15", "W", "Alex Bard", "Seattle Athletic Club Downtown"),
+                           ("3/27/15", "W", "Phil Chung", "Seattle Atheletic Club Northgate"),
+                           ("3/16/15", "L", "Andrew Patterson", "Bay Club"),
+                           ("2/25/14", "L", "Axel Luft", "Pro Club"),
+                           ("2/04/14", "W", "Joe Manaca", "Seattle Athletic Club")]
     let sharedData = AppShareData.sharedInstance
     
     // Update the profile card within the UI
@@ -36,18 +36,25 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
      override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let navController = self.navigationController as! CustomNavController
+        let progressView = navController.progressView!
         
         // Load user profile data from app directory as an optimization for UI refresh
-        //sharedData.userProfile.fetchProfileFromDisk()
+        progressView.setProgress(0.25, animated: true)
+        sharedData.userProfile.fetchProfileFromDisk()
         if sharedData.userProfile.isValid() {
             updateProfileCard()
         }
         
         // Async: retreive user profile information from iCloud to get any updates on other devices
+        progressView.setProgress(0.6, animated: true)
         sharedData.cloudData.fetchUserProfile(self.sharedData.userProfile) {
             if self.sharedData.userProfile.isValid() {
                 self.updateProfileCard()
             }
+            progressView.setProgress(1.0, animated: true)
+            self.sharedData.userProfile.persistProfileToDisk()
+            progressView.hidden = true
         }
     }
         
@@ -79,10 +86,10 @@ class FirstViewController: UIViewController, UIImagePickerControllerDelegate, UI
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
         
-        let (matchDate, matchResult, matchOpponent, matchScore, matchClub) = squashMatchList[indexPath.row]
+        let (matchDate, matchResult, matchOpponent, matchClub) = squashMatchList[indexPath.row]
         cell.textLabel!.text = matchDate + ": " + matchOpponent + " (" + matchResult + ")"
     
-        cell.detailTextLabel!.text = matchScore + " @ " + matchClub
+        cell.detailTextLabel!.text = matchClub
         return cell
     }
 }
