@@ -20,7 +20,7 @@ class UserProfileTableViewCell: UITableViewCell {
         // Initialization code
         propertyField.borderStyle = UITextBorderStyle.None
         
-        let verticalLine = CGRect(x: (self.contentView.bounds.size.width/2.5), y: 5, width: 2, height: self.contentView.bounds.size.height - 10)
+        let verticalLine = CGRect(x: (self.contentView.bounds.size.width/3), y: 5, width: 2, height: self.contentView.bounds.size.height - 10)
         let lineSeperator = UIView(frame: verticalLine)
         lineSeperator.backgroundColor = UIColor.lightGrayColor()
         lineSeperator.autoresizingMask = UIViewAutoresizing(rawValue: 0x3f)

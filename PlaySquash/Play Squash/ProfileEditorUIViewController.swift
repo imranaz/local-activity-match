@@ -44,7 +44,7 @@ class ProfileEditorTableViewController: UITableViewController, UIImagePickerCont
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func saveButton(sender: AnyObject) {
+    @IBAction func saveButtonAction(sender: AnyObject) {
         // Persist profile information entered by the user to both local device and the cloud
         sharedData.userProfile.persistProfileToDisk();
         sharedData.cloudData.persistUserProfile(sharedData.userProfile)
@@ -153,8 +153,8 @@ class ProfileEditorTableViewController: UITableViewController, UIImagePickerCont
     }
     
     // User profile thumnail picker
-    
-    @IBAction func pickUserImage(sender: AnyObject) {
+    @IBAction func pickUserImage(sender: AnyObject)
+    {
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .PhotoLibrary
         
